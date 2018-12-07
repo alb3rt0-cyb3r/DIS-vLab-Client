@@ -1,0 +1,39 @@
+<ng-container *ngIf="alert.error">
+  <clr-alert [clrAlertType]="'alert-danger'">
+    <clr-alert-item>
+        <span class="alert-text">
+            {{ alert.error }}
+        </span>
+    </clr-alert-item>
+  </clr-alert>
+</ng-container>
+
+<!-- TODO - Center spinner -->
+<span class="spinner" [hidden]="!loading">
+      Cargando...
+</span>
+
+<div class="clr-row" [hidden]="loading || alert.error">
+
+  <div class="clr-col-4">
+    <app-host-general-info [system]="hostInfo.system" [cpu]="hostInfo.cpu"></app-host-general-info>
+  </div>
+
+  <div class="clr-col-8">
+    <div class="clr-row">
+      <div class="clr-col-6">
+        <app-host-memory-info [memory]="hostInfo.memory"></app-host-memory-info>
+      </div>
+      <div class="clr-col-6">
+        <app-host-domains-info [domains]="hostInfo.domains"></app-host-domains-info>
+      </div>
+      <div class="clr-col-6">
+        <app-host-labs-info [labs]="hostInfo.labs"></app-host-labs-info>
+      </div>
+      <div class="clr-col-6">
+        <app-host-templates-info [templates]="hostInfo.templates"></app-host-templates-info>
+      </div>
+    </div>
+  </div>
+
+</div>

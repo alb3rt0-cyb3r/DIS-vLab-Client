@@ -1,0 +1,23 @@
+export enum TaskTypes {
+    DOMAIN_GET_ALL = 'Obtener dominios',
+    DOMAIN_POWER_START = 'Encender dominio',
+    DOMAIN_POWER_REBOOT = 'Reiniciar dominio',
+    DOMAIN_POWER_SHUTDOWN = 'Apagar dominio',
+    DOMAIN_CREATION = 'Crear dominio',
+    DOMAIN_RECONFIGURATION = 'Reconfigurar dominio',
+    DOMAIN_DELETION = 'Eliminar dominio',
+    LAB_GET_ALL = 'Obtener laboratorios',
+    LAB_CREATION = 'Crear laboratorio',
+    LAB_EDITION = 'Editar laboratorio',
+    LAB_DELETION = 'Eliminar laboratorio',
+    TEMPLATE_GET_ALL = 'Obtener plantillas',
+    TEMPLATE_CREATION = 'Crear plantilla',
+    TEMPLATE_EDITION = 'Editar plantilla',
+    TEMPLATE_DELETION = 'Eliminar plantilla',
+    TEMPLATE_DEPLOYMENT = 'Desplegar plantilla',
+    HOST_GET_ALL = 'Obtener hosts',
+    HOST_CREATION = 'Crear host',
+    HOST_EDITION = 'Editar host',
+    HOST_DELETION = 'Eliminar host',
+    HOST_INFO = 'Obtener información de host'
+}

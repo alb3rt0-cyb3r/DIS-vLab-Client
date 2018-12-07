@@ -1,0 +1,35 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalSize]="'md'">
+  <h3 class="modal-title">Desplegar plantilla</h3>
+  <div class="modal-body">
+
+    <ng-container *ngIf="alert.error">
+      <clr-alert [clrAlertType]="'alert-danger'">
+        <clr-alert-item>
+          <span class="alert-text">
+            {{ alert.error }}
+          </span>
+        </clr-alert-item>
+      </clr-alert>
+    </ng-container>
+
+    <form clrForm class="clr-form-horizontal" [formGroup]="form">
+      <clr-input-container>
+        <label>Nombre del dominio:</label>
+        <input clrInput type="text" formControlName="domain_name" name="domain" />
+        <clr-control-error>Este campo es obligatorio!</clr-control-error>
+      </clr-input-container>
+      <clr-select-container>
+        <label>Laboratorio de destino:</label>
+        <select clrSelect name="options" formControlName="lab_uuid">
+          <option *ngFor="let lab of labs" value="{{ lab.uuid }}">{{ lab.code }}</option>
+        </select>
+        <clr-control-error>Este campo es obligatorio!</clr-control-error>
+      </clr-select-container>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="onCancel()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="onDeploy()">Desplegar</button>
+  </div>
+</clr-modal>

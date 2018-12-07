@@ -1,0 +1,17 @@
+<div class="card">
+  <div class="card-header">
+    Dominios
+  </div>
+  <div class="card-block">
+    <div class="card-text text-center">
+      <div style="margin-bottom: 6px;">
+        <span style="font-size: 28px; line-height: 28px;">{{ domains.active }}</span>
+        <span style="font-size: 28px; line-height: 14px; padding: 0 5px;"> / </span>
+        <span style="font-size: 28px; line-height: 28px;">{{ domains.total }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-center">
+    <button class="btn btn-sm btn-link" (click)="onViewDomainsClick()">Ver dominios</button>
+  </div>
+</div>

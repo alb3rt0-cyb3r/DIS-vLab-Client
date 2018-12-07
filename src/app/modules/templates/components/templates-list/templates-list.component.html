@@ -1,0 +1,56 @@
+<!-- EXTRA CONTENT START -->
+<app-deploy-template-modal></app-deploy-template-modal>
+<!-- EXTRA CONTENT END -->
+
+<clr-button-group class="btn-sm btn-secondary">
+    <clr-button (click)="onRefresh()">
+        <clr-icon shape="refresh"></clr-icon>
+        Actualizar
+    </clr-button>
+</clr-button-group>
+
+<ng-container *ngIf="(alert.success || alert.error) && templates">
+    <clr-alert [clrAlertType]="alert.success ? 'alert-success' : 'alert-danger'">
+        <clr-alert-item>
+      <span class="alert-text">
+        {{ alert.success || alert.error }}
+      </span>
+        </clr-alert-item>
+    </clr-alert>
+</ng-container>
+
+<ng-container *ngIf="!templates">
+    <clr-alert>
+        <clr-alert-item>
+      <span class="alert-text">
+        No hay plantillas que mostrar
+      </span>
+        </clr-alert-item>
+    </clr-alert>
+</ng-container>
+
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" *ngFor="let template of templates">
+        <div class="card">
+            <div class="card-header">
+                {{ template.name }}
+            </div>
+            <div class="card-block">
+                <div class="card-text">
+                    {{ template.description }}
+                </div>
+            </div>
+            <div class="card-block">
+                <ul class="list">
+                    <li>Creación: {{ template.timestamp | date:'d/M/y h:mm:ss a' }}</li>
+                    <li>vCPUs: {{ template.vcpus }}</li>
+                    <li>Memoria RAM: {{ template.memory }} MB</li>
+                </ul>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-sm btn-link" (click)="onDeployTemplate(template.uuid)">Desplegar</button>
+                <button class="btn btn-sm btn-link" (click)="onDeleteTemplate(template.uuid)">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

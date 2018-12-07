@@ -1,0 +1,133 @@
+<clr-wizard [(clrWizardOpen)]="opened" [clrWizardSize]="'lg'" [clrWizardDisableStepnav]="true" (clrWizardOnCancel)="onCancel()"
+  (clrWizardOnFinish)="onFinish()">
+  <clr-wizard-title>Nuevo dominio</clr-wizard-title>
+
+  <clr-wizard-button [type]="'cancel'">Cancelar</clr-wizard-button>
+  <clr-wizard-button [type]="'previous'">Atras</clr-wizard-button>
+  <clr-wizard-button [type]="'next'">Siguiente</clr-wizard-button>
+  <clr-wizard-button [type]="'finish'">Finalizar</clr-wizard-button>
+
+  <clr-wizard-page [clrWizardPageNextDisabled]="form.value.installation_type != 'pxe' && !(form.value.installation_type && (form.value.cdrom || form.value.disk.path || form.value.location))">
+    <ng-template clrPageTitle>Método de instalación</ng-template>
+    <form clrForm [formGroup]="form">
+      <clr-radio-container>
+        <label>Escoja el método adecuado para la instalación del invitado:</label>
+        <clr-radio-wrapper *ngFor="let method of getOSInstallationMethodsKeys()">
+          <input clrRadio type="radio" value="{{ method }}" formControlName="installation_type" />
+          <label>{{ osInstallationMethods[method] }}</label>
+        </clr-radio-wrapper>
+        <clr-control-error>Es necesario que seleccione una opción</clr-control-error>
+      </clr-radio-container>
+
+      <clr-input-container *ngIf="form.value.installation_type == 'iso'">
+        <label>Ruta absoluta de la imagen ISO:</label>
+        <input clrInput type="text" formControlName="cdrom" />
+        <clr-control-helper>El directorio de la imagen ISO debe tener permisos de lectura para el usuario 'qemu'</clr-control-helper>
+        <clr-control-error>Es necesario que seleccione una opción</clr-control-error>
+      </clr-input-container>
+      <clr-input-container *ngIf="form.value.installation_type == 'image'" formGroupName="disk">
+        <label>Ruta absoluta de la imagen a importar:</label>
+        <input clrInput type="text" formControlName="path" />
+        <clr-control-error>Es necesario que seleccione una opción</clr-control-error>
+      </clr-input-container>
+      <clr-input-container *ngIf="form.value.installation_type == 'network'">
+        <label>Ruta remota de la imagen:</label>
+        <input clrInput type="text" formControlName="location" />
+        <clr-control-error>Es necesario que seleccione una opción</clr-control-error>
+      </clr-input-container>
+
+    </form>
+  </clr-wizard-page>
+
+  <clr-wizard-page [clrWizardPageNextDisabled]="!form.value.os_variant">
+    <ng-template clrPageTitle>Sistema Operativo</ng-template>
+    <form clrForm [formGroup]="form">
+      <clr-select-container>
+        <label>Seleccione el tipo de sistema operativo invitado</label>
+        <select clrSelect formControlName="os_variant">
+          <option value="{{ variant }}" *ngFor="let variant of getOSVariantsKeys()">{{ osVariants[variant] }}</option>
+        </select>
+        <clr-control-error>Este campo es obligatorio!</clr-control-error>
+      </clr-select-container>
+    </form>
+  </clr-wizard-page>
+
+  <clr-wizard-page [clrWizardPageNextDisabled]="!form.value.disk.size" *ngIf="form.value['installation_type'] != 'image'">
+    <ng-template clrPageTitle>Almacenamiento</ng-template>
+    <form clrForm [formGroup]="form" class="clr-form-horizontal">
+      <div formGroupName="disk">
+        <clr-input-container>
+          <label>Tamaño del disco virtual (GB):</label>
+          <input clrInput type="number" formControlName="size" />
+          <clr-control-error>Este campo es obligatorio!</clr-control-error>
+        </clr-input-container>
+      </div>
+    </form>
+  </clr-wizard-page>
+
+  <clr-wizard-page [clrWizardPageNextDisabled]="!(form.value.name && form.value.vcpus && form.value.memory) || (form.value.graphics.vnc && !(form.value.graphics.listen && form.value.graphics.password))">
+    <ng-template clrPageTitle>Configuración básica</ng-template>
+    <form clrForm [formGroup]="form" class="clr-form-horizontal">
+      <clr-input-container>
+        <label>Nombre del dominio:</label>
+        <input clrInput type="text" formControlName="name" />
+        <clr-control-error>Este campo es obligatorio!</clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <label>Cantidad de vCPU:</label>
+        <input clrInput type="number" formControlName="vcpus" />
+        <clr-control-error>Este campo es obligatorio!</clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <label>Memoria RAM (MB):</label>
+        <input clrInput type="number" formControlName="memory" />
+        <clr-control-error>Este campo es obligatorio!</clr-control-error>
+      </clr-input-container>
+
+      <section class="form-block">
+        <div class="form-group">
+          <label>Gráficos VNC:</label>
+          <div class="checkbox" formGroupName="graphics">
+            <input type="checkbox" id="check_vnc" formControlName="vnc" />
+            <label for="check_vnc">Habilitar</label>
+          </div>
+        </div>
+      </section>
+
+      <clr-input-container formGroupName="graphics" [hidden]="!form.value.graphics.vnc">
+        <label>Red de escucha VNC:</label>
+        <input clrInput type="text" formControlName="listen" [required]="form.value.graphics.vnc" />
+        <clr-control-error>Este campo es obligatorio!</clr-control-error>
+
+      </clr-input-container>
+      <clr-input-container formGroupName="graphics" [hidden]="!form.value.graphics.vnc">
+        <label>Contraseña VNC:</label>
+        <input clrInput type="password" formControlName="password" [required]="form.value.graphics.vnc" />
+        <clr-control-helper>Se necesita una contraseña para la conexión</clr-control-helper>
+        <clr-control-error>Este campo es obligatorio!</clr-control-error>
+      </clr-input-container>
+    </form>
+  </clr-wizard-page>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Resumen</ng-template>
+    <ng-container *ngIf="alert.error">
+      <clr-alert [clrAlertType]="'alert-danger'">
+        <clr-alert-item>
+          <span class="alert-text">
+            {{ alert.error }}
+          </span>
+        </clr-alert-item>
+      </clr-alert>
+    </ng-container>
+    <ul>
+      <li>Nombre: {{ form.value.name }}</li>
+      <li>Método de instalación: {{ osInstallationMethods[form.value.installation_type] }}</li>
+      <li>Sistema operativo: {{ osVariants[form.value.os_variant] }}</li>
+      <li>Cantidad vCPUs: {{ form.value.vcpus }}</li>
+      <li>Memoria RAM: {{ form.value.memory }} GB</li>
+      <li>Tamaño del disco virtual: {{ form.value.disk.size }} GB</li>
+      <li>Gráficos VNC: {{ form.value.graphics.vnc ? 'Habilitado' : 'Deshabilitado' }}</li>
+    </ul>
+  </clr-wizard-page>
+</clr-wizard>

@@ -1,0 +1,68 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalSize]="'md'">
+  <h3 class="modal-title">Crear laboratorio</h3>
+  <div class="modal-body">
+
+    <ng-container *ngIf="alert.error">
+      <clr-alert [clrAlertType]="'alert-danger'">
+        <clr-alert-item>
+          <span class="alert-text">
+            {{ alert.error }}
+          </span>
+        </clr-alert-item>
+      </clr-alert>
+    </ng-container>
+
+    <form clrForm class="clr-form-horizontal" [formGroup]="form">
+
+      <clr-input-container>
+        <label>Código del laboratorio:</label>
+        <input clrInput type="text" formControlName="code" name="code" />
+        <clr-control-error>Este campo es obligatorio!</clr-control-error>
+      </clr-input-container>
+
+      <clr-textarea-container>
+        <label>Descripción:</label>
+        <textarea clrTextarea formControlName="description" name="description" required></textarea>
+        <clr-control-error>Este campo es obligatorio!</clr-control-error>
+      </clr-textarea-container>
+
+      <clr-input-container>
+        <label>Inicio rango IP:</label>
+        <input clrInput type="text" formControlName="start_ip_range" name="start_ip_range" />
+        <clr-control-error>Este campo es obligatorio!</clr-control-error>
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Fin rango IP:</label>
+        <input clrInput type="text" formControlName="end_ip_range" name="end_ip_range" />
+        <clr-control-error>Este campo es obligatorio!</clr-control-error>
+      </clr-input-container>
+
+      <div formGroupName="hosts">
+        <clr-input-container>
+          <label># vCPUs por host:</label>
+          <input clrInput type="number" formControlName="vcpus" name="vcpus" />
+          <clr-control-error>Este campo es obligatorio!</clr-control-error>
+        </clr-input-container>
+
+        <clr-input-container>
+          <label>Memoria RAM por host (GB):</label>
+          <input clrInput type="number" formControlName="memory" name="memory" />
+          <clr-control-error>Este campo es obligatorio!</clr-control-error>
+        </clr-input-container>
+
+        <clr-input-container>
+          <label>Cantidad de disco por host (GB):</label>
+          <input clrInput type="number" formControlName="disk" name="disk" />
+          <clr-control-error>Este campo es obligatorio!</clr-control-error>
+        </clr-input-container>
+      </div>
+
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="onCancel()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="onCreate()">Crear</button>
+  </div>
+</clr-modal>

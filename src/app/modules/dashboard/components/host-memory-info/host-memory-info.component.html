@@ -1,0 +1,19 @@
+<div class="card">
+  <div class="card-header">
+    RAM
+  </div>
+  <div class="card-block">
+    <div class="card-text text-center">
+      <div style="margin-bottom: 6px">
+        <span style="font-size: 28px; line-height: 28px; padding-right: 5px">{{ memory.free }}</span>
+        <span>GB libres</span>
+      </div>
+      <div class="progress-block">
+        <div class="progress-static success">
+          <div class="progress-meter" [attr.data-value]="memory.load"></div>
+        </div>
+      </div>
+      <p>{{ memory.used }} GB usados | {{ memory.total }} GB totales</p>
+    </div>
+  </div>
+</div>

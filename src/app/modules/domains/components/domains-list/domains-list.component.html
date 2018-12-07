@@ -1,0 +1,75 @@
+<!-- EXTRA CONTENT START -->
+<app-create-domain-wizard (finishEvent)="onRefresh()"></app-create-domain-wizard>
+<ng-container *ngIf="selected">
+    <app-clone-domain-to-template-modal [domain_uuid]="selected.uuid"></app-clone-domain-to-template-modal>
+</ng-container>
+<!-- EXTRA CONTENT END -->
+
+<ng-container *ngIf="alert.success || alert.error">
+    <clr-alert [clrAlertType]="alert.success ? 'alert-success' : 'alert-danger'">
+        <clr-alert-item>
+      <span class="alert-text">
+        {{ alert.success || alert.error }}
+      </span>
+        </clr-alert-item>
+    </clr-alert>
+</ng-container>
+
+
+<clr-datagrid class="datagrid-compact" [(clrDgSingleSelected)]="selected" [clDgRowSelection]="false"
+              [clrDgLoading]="loading">
+
+    <clr-dg-action-bar>
+        <clr-button-group class="btn-sm btn-secondary">
+            <clr-button (click)="onNewDomain()" [disabled]="loading">
+                <clr-icon shape="plus"></clr-icon>
+                Nuevo dominio
+            </clr-button>
+            <clr-button (click)="onRefresh()" [disabled]="loading">
+                <clr-icon shape="refresh"></clr-icon>
+                Actualizar
+            </clr-button>
+            <ng-container *ngIf="selected">
+                <clr-button [clrInMenu]="true" (click)="onStartDomain()" [disabled]="selected.is_active">Encender
+                </clr-button>
+                <clr-button [clrInMenu]="true" (click)="onRebootDomain()" [disabled]="!selected.is_active">Reiniciar
+                </clr-button>
+                <clr-button [clrInMenu]="true" (click)="onShutdownDomain()" [disabled]="!selected.is_active">Apagar
+                </clr-button>
+                <clr-button [clrInMenu]="true" (click)="onCloneToTemplate()" [disabled]="selected.is_active">Clonar a
+                    plantilla
+                </clr-button>
+                <clr-button [clrInMenu]="true" (click)="onDeleteDomain()" [disabled]="selected.is_active">Eliminar
+                </clr-button>
+            </ng-container>
+        </clr-button-group>
+    </clr-dg-action-bar>
+
+    <clr-dg-column>Nombre</clr-dg-column>
+    <clr-dg-column>OS invitado</clr-dg-column>
+    <clr-dg-column>vCPUs</clr-dg-column>
+    <clr-dg-column>Memoria RAM</clr-dg-column>
+    <clr-dg-column>Estado</clr-dg-column>
+    <clr-dg-column>Puerto VNC</clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let domain of domains" [clrDgItem]="domain">
+        <clr-dg-cell>{{ domain.name }}</clr-dg-cell>
+        <clr-dg-cell>{{ domain.os_type }}</clr-dg-cell>
+        <clr-dg-cell>{{ domain.vcpus }}</clr-dg-cell>
+        <clr-dg-cell>{{ domain.memory.used }} / {{ domain.memory.total }} MB</clr-dg-cell>
+        <clr-dg-cell>
+            <span [hidden]="domain.state != 5">Apagado</span>
+            <span [hidden]="domain.state != 1">Encendido</span>
+            <span [hidden]="!(domain.state == 1 && domain.state == 5)">{{ domain.state }}</span>
+        </clr-dg-cell>
+        <clr-dg-cell>
+            <span [hidden]="domain.vnc_port != -1">-</span>
+            <span [hidden]="domain.vnc_port == -1" >{{ domain.vnc_port }}</span>
+        </clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+        {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} de {{ pagination.totalItems }} dominio(s)
+        <clr-dg-pagination #pagination [clrDgPageSize]="5"></clr-dg-pagination>
+    </clr-dg-footer>
+</clr-datagrid>

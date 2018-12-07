@@ -1,0 +1,53 @@
+<!-- EXTRA CONTENT START -->
+<app-create-lab-modal (finishEvent)="onRefresh()"></app-create-lab-modal>
+<!-- EXTRA CONTENT END -->
+
+<ng-container *ngIf="alert.success || alert.error">
+  <clr-alert [clrAlertType]="alert.success ? 'alert-success' : 'alert-danger'">
+    <clr-alert-item>
+      <span class="alert-text">
+        {{ alert.success || alert.error }}
+      </span>
+    </clr-alert-item>
+  </clr-alert>
+</ng-container>
+
+<clr-datagrid class="datagrid-compact" [(clrDgSingleSelected)]="selected" [clDgRowSelection]="false" [clrDgLoading]="loading">
+
+  <clr-dg-action-bar>
+    <clr-button-group class="btn-sm btn-secondary">
+      <clr-button (click)="onCreateLab()" [disabled]="loading">
+        <clr-icon shape="plus"></clr-icon> Nuevo laboratorio
+      </clr-button>
+      <clr-button (click)="onRefresh()" [disabled]="loading">
+        <clr-icon shape="refresh"></clr-icon> Actualizar
+      </clr-button>
+      <ng-container *ngIf="selected">
+        <clr-button [clrInMenu]="true" (click)="onViewHosts()" [disabled]="selected.hosts.total == 0">Ver hosts</clr-button>
+        <clr-button [clrInMenu]="true" (click)="onUpdateLab()">Editar</clr-button>
+        <clr-button [clrInMenu]="true" (click)="onDeleteLab()">Eliminar</clr-button>
+      </ng-container>
+    </clr-button-group>
+  </clr-dg-action-bar>
+
+  <clr-dg-column>Código</clr-dg-column>
+  <clr-dg-column>Rango de direcciones IP</clr-dg-column>
+  <clr-dg-column>Hosts</clr-dg-column>
+  <clr-dg-column>vCPUs máxima por host</clr-dg-column>
+  <clr-dg-column>Memoria RAM máxima por host</clr-dg-column>
+  <clr-dg-column>Almacenamiento máximo por host</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let lab of labs" [clrDgItem]="lab">
+    <clr-dg-cell>{{ lab.code }}</clr-dg-cell>
+    <clr-dg-cell>{{ lab.start_ip_range }} - {{ lab.end_ip_range }}</clr-dg-cell>
+    <clr-dg-cell>{{ lab.hosts.total }}</clr-dg-cell>
+    <clr-dg-cell>{{ lab.hosts.vcpus }}</clr-dg-cell>
+    <clr-dg-cell>{{ lab.hosts.memory }} GB</clr-dg-cell>
+    <clr-dg-cell>{{ lab.hosts.disk }} GB</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} de {{ pagination.totalItems }} laboratorio(s)
+    <clr-dg-pagination #pagination [clrDgPageSize]="5"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>

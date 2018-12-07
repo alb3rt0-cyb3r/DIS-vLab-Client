@@ -1,0 +1,14 @@
+<form class="login">
+  <section class="title">
+    <h3 class="welcome">Bienvenido a</h3>
+    DIS vLab Client
+    <h5 class="hint">Departamento de Informática y Sistemas</h5>
+  </section>
+  <div class="login-group" [formGroup]="loginForm">
+    <input class="username" type="text" id="login_username" placeholder="Usuario" formControlName="username">
+    <input class="password" type="password" id="login_password" placeholder="Contraseña" formControlName="password">
+    <div class="progress loop" [hidden]="!loading"><progress></progress></div>
+    <div class="error active" [hidden]="!alert.error">{{ alert.error }}</div>
+    <button type="submit" class="btn btn-primary" (click)="onSubmit()">ACCEDER</button>
+  </div>
+</form>

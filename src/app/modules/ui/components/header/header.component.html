@@ -1,0 +1,28 @@
+<header class="header header-6">
+  <div class="branding">
+    <span class="nav-link">
+      <img src="assets/img/ulpgc-white.png" alt="" id="header-logo">
+      <span class="title">DIS vLab Client</span>
+    </span>
+  </div>
+  <div class="header-nav">
+    <a class="nav-link nav-icon" href="" routerLink="/home" routerLinkActive="active">
+      <clr-icon shape="home"></clr-icon>
+    </a>
+    <a class="nav-link nav-icon" href="" routerLink="/settings" routerLinkActive="active">
+      <clr-icon shape="settings"></clr-icon>
+    </a>
+  </div>
+  <div class="header-actions">
+    <clr-dropdown>
+      <button class="nav-icon" clrDropdownTrigger>
+        <clr-icon shape="user"></clr-icon>
+        <clr-icon shape="caret down"></clr-icon>
+      </button>
+      <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+        <button type="button" clrDropdownItem disabled>Ayuda</button>
+        <button type="button" clrDropdownItem (click)="onLogoutClick()">Salir</button>
+      </clr-dropdown-menu>
+    </clr-dropdown>
+  </div>
+</header>

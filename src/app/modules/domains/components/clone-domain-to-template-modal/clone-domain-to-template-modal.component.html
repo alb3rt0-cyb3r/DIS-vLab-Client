@@ -1,0 +1,51 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalSize]="'md'" [clrModalClosable]="!cloning" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title">Clonar dominio a plantilla</h3>
+    <div class="modal-body">
+
+        <ng-container *ngIf="alert.error">
+            <clr-alert [clrAlertType]="'alert-danger'">
+                <clr-alert-item>
+          <span class="alert-text">
+            {{ alert.error }}
+          </span>
+                </clr-alert-item>
+            </clr-alert>
+        </ng-container>
+
+        <ng-container *ngIf="form">
+            <form clrForm class="clr-form-horizontal" [formGroup]="form">
+                <clr-input-container>
+                    <label>Nombre de la plantilla:</label>
+                    <input clrInput type="text" formControlName="template_name" required [readonly]="cloning"/>
+                    <clr-control-error>Este campo es obligatorio!</clr-control-error>
+                </clr-input-container>
+
+                <clr-textarea-container>
+                    <label>Descripción:</label>
+                    <textarea clrTextarea formControlName="template_description" required [readonly]="cloning"></textarea>
+                    <clr-control-error>Este campo es obligatorio!</clr-control-error>
+                </clr-textarea-container>
+
+                <section class="form-block">
+                    <div class="form-group">
+                        <label>Descontextualizar imagen:</label>
+                        <div class="checkbox">
+                            <input type="checkbox" id="check_sysprep" formControlName="do_sysprep"/>
+                            <label for="check_sysprep">(sólo para sistemas Linux)</label>
+                        </div>
+                    </div>
+                </section>
+
+            </form>
+        </ng-container>
+
+        <div class="progress loop" [hidden]="!cloning">
+            <progress></progress>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="onCancel()" [disabled]="cloning">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="onClone()" [disabled]="(form && !form.valid) || cloning">Clonar
+        </button>
+    </div>
+</clr-modal>

@@ -1,0 +1,18 @@
+<h2>Registro de logs</h2>
+<clr-button-group class="btn-sm btn-secondary">
+    <clr-button (click)="onRefresh()">
+        <clr-icon shape="refresh"></clr-icon>
+        Actualizar
+    </clr-button>
+    <clr-button (click)="onClear()">
+        <clr-icon shape="trash"></clr-icon>
+        Limpiar
+    </clr-button>
+</clr-button-group>
+
+<div class="logs-wrapper">
+    <p style="white-space: pre;">
+        <span *ngFor="let log of logs">{{ log }}</span>
+        <span *ngIf="!logs">No hay logs que mostrar</span>
+    </p>
+</div>
