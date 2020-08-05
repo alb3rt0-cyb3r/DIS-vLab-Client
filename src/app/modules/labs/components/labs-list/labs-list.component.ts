@@ -5,6 +5,7 @@ import {RestfulService} from '../../../../shared/services/restful.service';
 import {TasksService} from '../../../../shared/services/tasks.service';
 import {TaskTypes} from '../../../../shared/enums/task-types.enum';
 import {HttpErrorService} from '../../../../shared/services/http-error.service';
+import {ShowHostsModalComponent} from '../show-hosts-modal/show-hosts-modal.component';
 
 interface Lab {
     uuid: string;
@@ -23,6 +24,7 @@ interface Lab {
 export class LabsListComponent implements OnInit {
 
     @ViewChild(CreateLabModalComponent) createLabModal: CreateLabModalComponent;
+    @ViewChild(ShowHostsModalComponent) showHostsModal: ShowHostsModalComponent;
 
     labs: Lab[];
     selected: Lab;
@@ -49,6 +51,17 @@ export class LabsListComponent implements OnInit {
 
     onViewHosts() {
         // TODO - Implement something to list lab hosts
+        const task = this.tasks.addTask(TaskTypes.HOST_GET_ALL, this.selected.code);
+        this.restful.getHosts(this.selected.uuid)
+            .subscribe(
+                (hosts: any) => {
+                    this.tasks.finishTask(task);
+                    this.showHostsModal.open(hosts);
+                },
+                (error: HttpErrorResponse) => {
+                    this.alert.error = this.httpError.getMessageError(error);
+                    this.tasks.finishTask(task, true);
+                });
     }
 
     //   --------------------

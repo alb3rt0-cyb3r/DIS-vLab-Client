@@ -6,6 +6,7 @@ import { CreateLabModalComponent } from './components/create-lab-modal/create-la
 import { LabsListComponent } from './components/labs-list/labs-list.component';
 
 import { LabsPageComponent } from './pages/labs-page/labs-page.component';
+import { ShowHostsModalComponent } from './components/show-hosts-modal/show-hosts-modal.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { LabsPageComponent } from './pages/labs-page/labs-page.component';
   declarations: [
     CreateLabModalComponent,
     LabsListComponent,
-    LabsPageComponent
+    LabsPageComponent,
+    ShowHostsModalComponent
   ]
 })
 export class LabsModule { }

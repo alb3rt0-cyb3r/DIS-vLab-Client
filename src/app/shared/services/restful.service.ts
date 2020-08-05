@@ -160,8 +160,9 @@ export class RestfulService {
     });
   }
 
-  getHosts() {
-    return this.http.get(this.baseUrl + '/hosts', {
+  getHosts(lab_uuid) {
+    console.log(this.baseUrl + '/hosts/' + lab_uuid);
+    return this.http.get(this.baseUrl + '/hosts/' + lab_uuid, {
       headers: RestfulService.buildTokenHeaders(),
       withCredentials: true
     });

@@ -1,0 +1,21 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalSize]="'md'">
+  <h3 class="modal-title">Hosts</h3>
+  <div class="modal-body">
+    <clr-datagrid>
+      <clr-dg-column>Código</clr-dg-column>
+      <clr-dg-column>Usuario de acceso</clr-dg-column>
+      <clr-dg-column>IP</clr-dg-column>
+
+      <clr-dg-row *ngFor="let host of hosts">
+        <clr-dg-cell>{{host.code}}</clr-dg-cell>
+        <clr-dg-cell>{{host.conn_user}}</clr-dg-cell>
+        <clr-dg-cell>{{host.ip_address}}</clr-dg-cell>
+      </clr-dg-row>
+
+      <clr-dg-footer>{{hosts.length}} {{hosts.length > 1 ? "hosts" : "host"}}</clr-dg-footer>
+    </clr-datagrid>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="onClose()">Cerrar</button>
+  </div>
+</clr-modal>
