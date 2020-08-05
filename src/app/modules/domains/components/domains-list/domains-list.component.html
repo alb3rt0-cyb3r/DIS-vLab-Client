@@ -3,6 +3,7 @@
 <ng-container *ngIf="selected">
     <app-clone-domain-to-template-modal [domain_uuid]="selected.uuid"></app-clone-domain-to-template-modal>
 </ng-container>
+<app-remote-desktop-modal (finishEvent)="onRefresh()"></app-remote-desktop-modal>
 <!-- EXTRA CONTENT END -->
 
 <ng-container *ngIf="alert.success || alert.error">
@@ -40,6 +41,9 @@
                     plantilla
                 </clr-button>
                 <clr-button [clrInMenu]="true" (click)="onDeleteDomain()" [disabled]="selected.is_active">Eliminar
+                </clr-button>
+                <clr-button [clrInMenu]="true" (click)="onRemoteDesktop()" [disabled]="!selected.is_active">
+                    Escritorio remoto
                 </clr-button>
             </ng-container>
         </clr-button-group>

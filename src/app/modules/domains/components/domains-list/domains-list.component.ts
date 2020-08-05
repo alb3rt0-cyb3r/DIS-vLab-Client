@@ -6,6 +6,7 @@ import {RestfulService} from '../../../../shared/services/restful.service';
 import {TasksService} from '../../../../shared/services/tasks.service';
 import {TaskTypes} from '../../../../shared/enums/task-types.enum';
 import {HttpErrorService} from '../../../../shared/services/http-error.service';
+import {RemoteDesktopModalComponent} from '../remote-desktop-modal/remote-desktop-modal.component';
 
 interface Domain {
     uuid: string;
@@ -27,6 +28,7 @@ export class DomainsListComponent implements OnInit {
 
     @ViewChild(CreateDomainWizardComponent) createDomainWizard: CreateDomainWizardComponent;
     @ViewChild(CloneDomainToTemplateModalComponent) cloneToTemplateWizard: CloneDomainToTemplateModalComponent;
+    @ViewChild(RemoteDesktopModalComponent) remoteDesktopModal: RemoteDesktopModalComponent;
 
     domains: Domain[];
     selected: Domain;
@@ -142,4 +144,7 @@ export class DomainsListComponent implements OnInit {
                 });
     }
 
+    onRemoteDesktop() {
+        this.remoteDesktopModal.open();
+    }
 }
