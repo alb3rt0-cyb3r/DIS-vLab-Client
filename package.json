@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "websockify": "node tools/websockify-js/websockify/websockify.js"
   },
   "private": true,
   "dependencies": {
@@ -23,6 +24,7 @@
     "@clr/angular": "^0.13.7",
     "@clr/icons": "^0.13.7",
     "@clr/ui": "^0.13.7",
+    "@novnc/novnc": "^1.2.0",
     "@webcomponents/custom-elements": "^1.0.0",
     "core-js": "^2.5.4",
     "jwt-decode": "^2.2.0",

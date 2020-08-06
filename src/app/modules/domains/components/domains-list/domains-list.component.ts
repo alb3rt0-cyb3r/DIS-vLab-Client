@@ -145,6 +145,6 @@ export class DomainsListComponent implements OnInit {
     }
 
     onRemoteDesktop() {
-        this.remoteDesktopModal.open();
+        this.remoteDesktopModal.open("6080");
     }
 }
