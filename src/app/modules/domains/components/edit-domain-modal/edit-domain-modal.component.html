@@ -1,0 +1,25 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">Editar dominio</h3>
+  <div class="modal-body">
+    <ng-container *ngIf="form">
+      <form clrForm class="clr-form-horizontal" [formGroup]="form">
+        <clr-input-container>
+          <label>Discos duros</label>
+          <input clrInput type="text" formControlName="vcpus">
+          <clr-control-error>Es necesario incluir un valor!</clr-control-error>
+        </clr-input-container>
+        <clr-input-container>
+          <label>Memoria RAM</label>
+          <input clrInput type="text" formControlName="memory">
+          <clr-control-error>Es necesario incluir un valor!</clr-control-error>
+        </clr-input-container>
+      </form>
+    </ng-container>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="onCancel()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="onEdit()" [disabled]="(form && !form.valid)">Editar</button>
+  </div>
+
+</clr-modal>

@@ -8,6 +8,7 @@ import { DomainsListComponent } from './components/domains-list/domains-list.com
 
 import { DomainsPageComponent } from './pages/domains-page/domains-page.component';
 import { RemoteDesktopModalComponent } from './components/remote-desktop-modal/remote-desktop-modal.component';
+import { EditDomainModalComponent } from './components/edit-domain-modal/edit-domain-modal.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { RemoteDesktopModalComponent } from './components/remote-desktop-modal/r
     CloneDomainToTemplateModalComponent,
     DomainsListComponent,
     DomainsPageComponent,
-    RemoteDesktopModalComponent
+    RemoteDesktopModalComponent,
+    EditDomainModalComponent
   ]
 })
 export class DomainsModule { }

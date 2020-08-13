@@ -4,6 +4,7 @@
     <app-clone-domain-to-template-modal [domain_uuid]="selected.uuid"></app-clone-domain-to-template-modal>
 </ng-container>
 <app-remote-desktop-modal (finishEvent)="onRefresh()"></app-remote-desktop-modal>
+<app-edit-domain-modal (finishEvent)="onRefresh()"></app-edit-domain-modal>
 <!-- EXTRA CONTENT END -->
 
 <ng-container *ngIf="alert.success || alert.error">
@@ -40,10 +41,12 @@
                 <clr-button [clrInMenu]="true" (click)="onCloneToTemplate()" [disabled]="selected.is_active">Clonar a
                     plantilla
                 </clr-button>
-                <clr-button [clrInMenu]="true" (click)="onDeleteDomain()" [disabled]="selected.is_active">Eliminar
-                </clr-button>
                 <clr-button [clrInMenu]="true" (click)="onRemoteDesktop()" [disabled]="!selected.is_active">
                     Escritorio remoto
+                </clr-button>
+                <clr-button [clrInMenu]="true" (click)="onEditDomain()" [disabled]="selected.is_active">Editar
+                </clr-button>
+                <clr-button [clrInMenu]="true" (click)="onDeleteDomain()" [disabled]="selected.is_active">Eliminar
                 </clr-button>
             </ng-container>
         </clr-button-group>
@@ -53,6 +56,7 @@
     <clr-dg-column>OS invitado</clr-dg-column>
     <clr-dg-column>vCPUs</clr-dg-column>
     <clr-dg-column>Memoria RAM</clr-dg-column>
+    <clr-dg-column>Disco Duro (Capacidad / Espacio asignado / Espacio Físico)</clr-dg-column>
     <clr-dg-column>Estado</clr-dg-column>
     <clr-dg-column>Puerto VNC</clr-dg-column>
 
@@ -61,6 +65,7 @@
         <clr-dg-cell>{{ domain.os_type }}</clr-dg-cell>
         <clr-dg-cell>{{ domain.vcpus }}</clr-dg-cell>
         <clr-dg-cell>{{ domain.memory.used }} / {{ domain.memory.total }} MB</clr-dg-cell>
+        <clr-dg-cell>{{ domain.disk.capacity}} / {{domain.disk.allocation}} / {{domain.disk.physical}} GB</clr-dg-cell>
         <clr-dg-cell>
             <span [hidden]="domain.state != 5">Apagado</span>
             <span [hidden]="domain.state != 1">Encendido</span>

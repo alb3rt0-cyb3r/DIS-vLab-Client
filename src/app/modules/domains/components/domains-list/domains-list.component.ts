@@ -7,6 +7,7 @@ import {TasksService} from '../../../../shared/services/tasks.service';
 import {TaskTypes} from '../../../../shared/enums/task-types.enum';
 import {HttpErrorService} from '../../../../shared/services/http-error.service';
 import {RemoteDesktopModalComponent} from '../remote-desktop-modal/remote-desktop-modal.component';
+import {EditDomainModalComponent} from '../edit-domain-modal/edit-domain-modal.component';
 
 interface Domain {
     uuid: string;
@@ -15,6 +16,7 @@ interface Domain {
     os_type: string;
     memory: { total: number, used: number };
     vcpus: number;
+    disk: {allocation: number, capacity: number, physical: number};
     state: number;
     vnc_port: number;
 }
@@ -29,6 +31,7 @@ export class DomainsListComponent implements OnInit {
     @ViewChild(CreateDomainWizardComponent) createDomainWizard: CreateDomainWizardComponent;
     @ViewChild(CloneDomainToTemplateModalComponent) cloneToTemplateWizard: CloneDomainToTemplateModalComponent;
     @ViewChild(RemoteDesktopModalComponent) remoteDesktopModal: RemoteDesktopModalComponent;
+    @ViewChild(EditDomainModalComponent) editDomainModal: EditDomainModalComponent;
 
     domains: Domain[];
     selected: Domain;
@@ -133,6 +136,7 @@ export class DomainsListComponent implements OnInit {
         this.restful.getDomains()
             .subscribe(
                 (domains: any) => {
+                    console.log(domains);
                     this.domains = domains;
                     this.tasks.finishTask(task);
                     this.loading = !this.loading;
@@ -146,5 +150,9 @@ export class DomainsListComponent implements OnInit {
 
     onRemoteDesktop() {
         this.remoteDesktopModal.open("6080");
+    }
+
+    onEditDomain() {
+        this.editDomainModal.open(this.selected.memory.total, this.selected.vcpus, this.selected.uuid);
     }
 }

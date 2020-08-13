@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {RestfulService} from '../../../../shared/services/restful.service';
 
 @Component({
   selector: 'app-settings-page',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private restful: RestfulService) { }
 
   ngOnInit() {
+    this.restful.
   }
 
 }
