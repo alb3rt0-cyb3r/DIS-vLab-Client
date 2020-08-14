@@ -19,5 +19,7 @@ export enum TaskTypes {
     HOST_CREATION = 'Crear host',
     HOST_EDITION = 'Editar host',
     HOST_DELETION = 'Eliminar host',
-    HOST_INFO = 'Obtener información de host'
+    HOST_INFO = 'Obtener información de host',
+    SETTINGS_GET_ALL = 'Obtener configuración',
+    SETTINGS_UPDATE = 'Editar configuración'
 }

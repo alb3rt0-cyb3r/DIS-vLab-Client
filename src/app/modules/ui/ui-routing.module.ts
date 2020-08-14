@@ -27,9 +27,9 @@ const routes: Routes = [
     },
     {
         path: 'settings', component: SettingsLayoutComponent, canActivateChild: [AuthGuard], children: [
-            {path: 'settings', component: SettingsPageComponent},
+            {path: 'params', component: SettingsPageComponent},
             {path: 'logs', component: LogsPageComponent},
-            {path: '', redirectTo: 'settings', pathMatch: 'full'}
+            {path: '', redirectTo: 'params', pathMatch: 'full'}
         ]
     },
     {path: 'login', component: LoginPageComponent},

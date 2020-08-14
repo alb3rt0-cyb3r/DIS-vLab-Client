@@ -136,7 +136,6 @@ export class DomainsListComponent implements OnInit {
         this.restful.getDomains()
             .subscribe(
                 (domains: any) => {
-                    console.log(domains);
                     this.domains = domains;
                     this.tasks.finishTask(task);
                     this.loading = !this.loading;

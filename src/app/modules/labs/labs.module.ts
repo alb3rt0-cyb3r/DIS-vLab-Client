@@ -7,6 +7,7 @@ import { LabsListComponent } from './components/labs-list/labs-list.component';
 
 import { LabsPageComponent } from './pages/labs-page/labs-page.component';
 import { ShowHostsModalComponent } from './components/show-hosts-modal/show-hosts-modal.component';
+import { UpdateLabModalComponent } from './components/update-lab-modal/update-lab-modal.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { ShowHostsModalComponent } from './components/show-hosts-modal/show-host
     CreateLabModalComponent,
     LabsListComponent,
     LabsPageComponent,
-    ShowHostsModalComponent
+    ShowHostsModalComponent,
+    UpdateLabModalComponent
   ]
 })
 export class LabsModule { }

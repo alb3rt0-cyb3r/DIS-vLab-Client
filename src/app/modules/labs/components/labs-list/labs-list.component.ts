@@ -6,10 +6,12 @@ import {TasksService} from '../../../../shared/services/tasks.service';
 import {TaskTypes} from '../../../../shared/enums/task-types.enum';
 import {HttpErrorService} from '../../../../shared/services/http-error.service';
 import {ShowHostsModalComponent} from '../show-hosts-modal/show-hosts-modal.component';
+import {UpdateLabModalComponent} from '../update-lab-modal/update-lab-modal.component';
 
 interface Lab {
     uuid: string;
     code: string;
+    description: string;
     start_ip_range: string;
     end_ip_range: string;
     netmask: string;
@@ -25,6 +27,7 @@ export class LabsListComponent implements OnInit {
 
     @ViewChild(CreateLabModalComponent) createLabModal: CreateLabModalComponent;
     @ViewChild(ShowHostsModalComponent) showHostsModal: ShowHostsModalComponent;
+    @ViewChild(UpdateLabModalComponent) updateLabModal: UpdateLabModalComponent;
 
     labs: Lab[];
     selected: Lab;
@@ -74,7 +77,7 @@ export class LabsListComponent implements OnInit {
 
 
     onUpdateLab() {
-        // TODO - Show update lab modal
+        this.updateLabModal.open(this.selected);
     }
 
     onDeleteLab() {

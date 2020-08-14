@@ -1,0 +1,17 @@
+<h2>Parámetros de configuración</h2>
+
+<form clrForm [formGroup]="form">
+  <clr-input-container>
+    <label>Directorio de definición de plantillas</label>
+    <input clrInput type="text" formControlName="TEMPLATE_DEFINITIONS_DIR">
+  </clr-input-container>
+  <clr-input-container>
+    <label>Directorio de imágenes de plantillas</label>
+    <input clrInput type="text" formControlName="TEMPLATE_IMAGES_DIR">
+  </clr-input-container>
+</form>
+
+<div class="btn-group btn-primary">
+  <button class="btn btn-primary" (click)="onUpdate()">Aceptar</button>
+  <button class="btn btn-outline" (click)="onRefresh()">Reiniciar</button>
+</div>

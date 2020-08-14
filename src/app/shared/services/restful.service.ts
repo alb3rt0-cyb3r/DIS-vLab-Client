@@ -227,4 +227,26 @@ export class RestfulService {
     });
   }
 
+  // ==========================
+  // ====> CONFIG METHODS =====
+  // ==========================
+
+  // CRUD START -->
+
+  getConfig(){
+    return this.http.get(this.baseUrl + '/settings', {
+      headers: RestfulService.buildTokenHeaders(),
+      withCredentials: true
+    });
+  }
+
+  updateConfig(data){
+    return this.http.put(this.baseUrl + '/settings', data, {
+        headers: RestfulService.buildTokenHeaders(),
+        withCredentials: true
+    });
+  }
+
+  // <-- CRUD END
+
 }

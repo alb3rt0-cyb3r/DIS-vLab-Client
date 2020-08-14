@@ -1,7 +1,7 @@
 <!-- EXTRA CONTENT START -->
 <app-create-lab-modal (finishEvent)="onRefresh()"></app-create-lab-modal>
 <app-show-hosts-modal (finishEvent)="onRefresh()"></app-show-hosts-modal>
-<!--<app-show-hosts-modal></app-show-hosts-modal> -->
+<app-update-lab-modal (finishEvent)="onRefresh()"></app-update-lab-modal>
 <!-- EXTRA CONTENT END -->
 
 <ng-container *ngIf="alert.success || alert.error">

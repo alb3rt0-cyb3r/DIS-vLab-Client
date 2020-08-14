@@ -22,12 +22,14 @@ export class EditDomainModalComponent implements OnInit {
   memory: number;
   vcpus: number;
   uuid: string;
+  alert: { error: string };
 
   constructor(private restful: RestfulService,
               private tasks: TasksService,
               private httpError: HttpErrorService,
               private fb: FormBuilder) {
       this.opened = false;
+      this.alert = { error: undefined};
   }
 
   ngOnInit() {
@@ -48,6 +50,7 @@ export class EditDomainModalComponent implements OnInit {
   }
 
   onEdit() {
+    this.alert.error = undefined;
     const task = this.tasks.addTask(TaskTypes.DOMAIN_RECONFIGURATION);
     this.restful.updateDomain(this.uuid, this.form.value)
         .subscribe(
@@ -57,8 +60,8 @@ export class EditDomainModalComponent implements OnInit {
               this.opened = false;
             },
             (error: HttpErrorResponse) => {
+              this.alert.error = this.httpError.getMessageError(error);
               this.tasks.finishTask(task, true);
-              console.log(error);
             }
         )
   }

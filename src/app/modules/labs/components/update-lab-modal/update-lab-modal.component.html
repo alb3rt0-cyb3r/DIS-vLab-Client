@@ -1,0 +1,71 @@
+<clr-modal [(clrModalOpen)]="opened" [clrModalSize]="'md'">
+  <h3 class="modal-title">Editar laboratorio</h3>
+  <div class="modal-body">
+
+    <ng-container *ngIf="alert.error">
+      <clr-alert [clrAlertType]="'alert-danger'">
+        <clr-alert-item>
+          <span class="alert-text">
+            {{ alert.error }}
+          </span>
+        </clr-alert-item>
+      </clr-alert>
+    </ng-container>
+
+    <form clrForm class="clr-form-horizontal" [formGroup]="form">
+
+      <clr-input-container>
+        <label>Nuevo código del laboratorio:</label>
+        <input clrInput type="text" formControlName="code" name="code" />
+        <clr-control-error>Es necesario especificar un valor!</clr-control-error>
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Nueva descripción:</label>
+        <input clrInput type="text" formControlName="description" name="description" />
+        <clr-control-error>Es necesario especificar un valor!</clr-control-error>
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Nuevo inicio del rango IP:</label>
+        <input clrInput type="text" formControlName="start_ip_range" name="start_ip_range" />
+        <clr-control-error>Es necesario especificar un valor!</clr-control-error>
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Nuevo final del rango IP:</label>
+        <input clrInput type="text" formControlName="end_ip_range" name="end_ip_range" />
+        <clr-control-error>Es necesario especificar un valor!</clr-control-error>
+      </clr-input-container>
+
+      <div formGroupName="hosts">
+
+        <clr-input-container>
+          <label># vCPUs por host:</label>
+          <input clrInput type="number" formControlName="vcpus" name="vcpus" />
+          <clr-control-error>Es necesario especificar un valor!</clr-control-error>
+        </clr-input-container>
+
+        <clr-input-container>
+          <label>Memoria RAM por host (GB):</label>
+          <input clrInput type="number" formControlName="memory" name="memory" />
+          <clr-control-error>Es necesario especificar un valor!</clr-control-error>
+        </clr-input-container>
+
+        <clr-input-container>
+          <label>Cantida de disco por host (GB):</label>
+          <input clrInput type="number" formControlName="disk" name="disk" />
+          <clr-control-error>Es necesario especificar un valor!</clr-control-error>
+        </clr-input-container>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="onCancel()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="onUpdate()">Actualizar</button>
+  </div>
+</clr-modal>
