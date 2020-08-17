@@ -2,16 +2,27 @@
 
 <form clrForm [formGroup]="form">
   <clr-input-container>
+    <label>URI local de qemu</label>
+    <input clrInput type="text" formControlName="LOCAL_QEMU_URI" readonly>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Usuario de conexión</label>
+    <input clrInput type="text" formControlName="CONN_USER" readonly>
+  </clr-input-container>
+  <clr-input-container>
     <label>Directorio de definición de plantillas</label>
-    <input clrInput type="text" formControlName="TEMPLATE_DEFINITIONS_DIR">
+    <input clrInput type="text" formControlName="TEMPLATE_DEFINITIONS_DIR" readonly>
   </clr-input-container>
   <clr-input-container>
     <label>Directorio de imágenes de plantillas</label>
-    <input clrInput type="text" formControlName="TEMPLATE_IMAGES_DIR">
+    <input clrInput type="text" formControlName="TEMPLATE_IMAGES_DIR" readonly>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Directorio de definición de dominios</label>
+    <input clrInput type="text" formControlName="DOMAIN_DEFINITIONS_DIR" readonly>
+  </clr-input-container>
+  <clr-input-container>
+    <label>Directorio de imágenes de dominios</label>
+    <input clrInput type="text" formControlName="DOMAIN_IMAGES_DIR" readonly>
   </clr-input-container>
 </form>
-
-<div class="btn-group btn-primary">
-  <button class="btn btn-primary" (click)="onUpdate()">Aceptar</button>
-  <button class="btn btn-outline" (click)="onRefresh()">Reiniciar</button>
-</div>
