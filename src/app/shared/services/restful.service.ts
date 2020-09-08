@@ -249,4 +249,19 @@ export class RestfulService {
 
   // <-- CRUD END
 
+  // ==========================
+  // ====> TASKS METHODS =====
+  // ==========================
+
+  // CRUD START -->
+
+  getTaskStatus(task_id){
+    return this.http.get(this.baseUrl + '/tasks/' + task_id, {
+      headers: RestfulService.buildTokenHeaders(),
+      withCredentials: false
+    });
+  }
+
+  // <-- CRUD END
+
 }

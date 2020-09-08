@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import {Observable, BehaviorSubject, Subscription, interval} from 'rxjs';
 import { TaskTypes } from '../enums/task-types.enum';
+import {RestfulService} from './restful.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +12,12 @@ import { TaskTypes } from '../enums/task-types.enum';
 export class TasksService {
 
   private _tasks: Task[];
+  private _longTasks: LongTask[];
   private _tasksSubject: BehaviorSubject<Task[]>;
 
-  constructor() {
+  constructor(private restfulService: RestfulService, private router: Router) {
     this._tasks = [];
+    this._longTasks = [];
     this._tasksSubject = new BehaviorSubject<Task[]>(this._tasks);
   }
 
@@ -34,9 +39,44 @@ export class TasksService {
     this._tasks[pos].result = (withErrors) ? 'Terminado con errores' : 'Completado';
   }
 
+  addLongTask(task_id: string, taskType: TaskTypes, object: string = 'dvls') {
+    let longTask = new LongTask(task_id);
+    longTask.task = this.addTask(taskType, object);
+    longTask.subscription = interval(5000)
+        .subscribe(value => this.getLongTaskStatus(longTask));
+    this._longTasks.push(longTask);
+    return longTask;
+  }
+
+  finishLongTask(longTask: LongTask, withErrors = false){
+    const longTaskPos = this._longTasks.indexOf(longTask);
+    this._longTasks[longTaskPos].subscription.unsubscribe();
+    let shortTask = this._longTasks[longTaskPos].task;
+    this.finishTask(shortTask, withErrors);
+  }
+
+  private getLongTaskStatus(longTask: LongTask){
+    console.log("In page " + this.router.url);
+    this.restfulService.getTaskStatus(longTask.task_id)
+        .subscribe(
+            (res: any) => {
+              if (res.status == 0){
+                this.finishLongTask(longTask);
+              } else {
+                if (res.status == -1){
+                  this.finishLongTask(longTask, true);
+                }
+              }
+            },
+            (error: HttpErrorResponse) => {
+              console.log(error)
+            }
+        )
+  }
+
 }
 
-class Task {
+export class Task {
 
   type: TaskTypes;
   object: any;
@@ -52,4 +92,14 @@ class Task {
     this.result = 'En ejecución...';
   }
 
+}
+
+export class LongTask {
+  task: Task;
+  task_id: string;
+  subscription: Subscription;
+
+  constructor(task_id: string){
+    this.task_id = task_id;
+  }
 }
