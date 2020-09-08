@@ -39,19 +39,14 @@ export class DeployTemplateModalComponent {
 
   onDeploy() {
     this.alert.error = undefined;
-    this.loading = true;
-    const task = this.tasks.addTask(TaskTypes.TEMPLATE_DEPLOYMENT);
     this.restful.deployTemplate(this.template_uuid, this.form.value)
       .subscribe(
         (res: any) => {
-          this.tasks.finishTask(task);
-          this.loading = false;
+          this.tasks.addLongTask(res, TaskTypes.TEMPLATE_DEPLOYMENT);
           this.modal.close();
         },
         (error: HttpErrorResponse) => {
           this.alert.error = this.httpError.getMessageError(error);
-          this.loading = false;
-          this.tasks.finishTask(task, true);
           console.log(error);
         });
   }

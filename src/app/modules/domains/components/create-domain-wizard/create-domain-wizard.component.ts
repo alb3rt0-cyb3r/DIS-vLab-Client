@@ -64,17 +64,15 @@ export class CreateDomainWizardComponent implements OnInit {
 
     onFinish() {
         this.alert.error = undefined;
-        const task = this.tasks.addTask(TaskTypes.DOMAIN_CREATION);
         this.restful.createDomain(this.form.value)
             .subscribe(
                 (res: any) => {
-                    this.tasks.finishTask(task);
+                    this.tasks.addLongTask(res, TaskTypes.DOMAIN_CREATION);
                     this.resetWizard();
                     this.finishEvent.emit(null);
                 },
                 (error: HttpErrorResponse) => {
                     this.alert.error = this.httpError.getMessageError(error);
-                    this.tasks.finishTask(task, true);
                 });
     }
 

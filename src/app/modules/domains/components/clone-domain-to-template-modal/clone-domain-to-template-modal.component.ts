@@ -46,20 +46,15 @@ export class CloneDomainToTemplateModalComponent implements OnInit {
 
     onClone() {
         this.alert.error = undefined;
-        const task = this.tasks.addTask(TaskTypes.TEMPLATE_CREATION);
-        this.cloning = true;
         this.restful.createTemplate(this.form.value)
             .subscribe(
                 (res: any) => {
                     console.log(res);
-                    this.tasks.finishTask(task);
-                    this.cloning = false;
+                    this.tasks.addLongTask(res, TaskTypes.TEMPLATE_CREATION);
                     this.opened = false;
                 },
                 (error: HttpErrorResponse) => {
                     this.alert.error = this.httpError.getMessageError(error);
-                    this.tasks.finishTask(task, true);
-                    this.cloning = false;
                 });
     }
 

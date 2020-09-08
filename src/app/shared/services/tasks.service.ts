@@ -56,7 +56,6 @@ export class TasksService {
   }
 
   private getLongTaskStatus(longTask: LongTask){
-    console.log("In page " + this.router.url);
     this.restfulService.getTaskStatus(longTask.task_id)
         .subscribe(
             (res: any) => {
