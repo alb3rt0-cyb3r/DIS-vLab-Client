@@ -161,7 +161,6 @@ export class RestfulService {
   }
 
   getHosts(lab_uuid) {
-    console.log(this.baseUrl + '/hosts/' + lab_uuid);
     return this.http.get(this.baseUrl + '/hosts/' + lab_uuid, {
       headers: RestfulService.buildTokenHeaders(),
       withCredentials: true
@@ -248,20 +247,4 @@ export class RestfulService {
   }
 
   // <-- CRUD END
-
-  // ==========================
-  // ====> TASKS METHODS =====
-  // ==========================
-
-  // CRUD START -->
-
-  getTaskStatus(task_id){
-    return this.http.get(this.baseUrl + '/tasks/' + task_id, {
-      headers: RestfulService.buildTokenHeaders(),
-      withCredentials: false
-    });
-  }
-
-  // <-- CRUD END
-
 }

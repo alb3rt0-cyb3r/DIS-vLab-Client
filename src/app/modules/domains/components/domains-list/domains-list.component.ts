@@ -8,6 +8,7 @@ import {TaskTypes} from '../../../../shared/enums/task-types.enum';
 import {HttpErrorService} from '../../../../shared/services/http-error.service';
 import {RemoteDesktopModalComponent} from '../remote-desktop-modal/remote-desktop-modal.component';
 import {EditDomainModalComponent} from '../edit-domain-modal/edit-domain-modal.component';
+import {SocketioService} from '../../../../shared/services/socketio.service';
 
 interface Domain {
     uuid: string;
@@ -26,6 +27,7 @@ interface Domain {
     templateUrl: './domains-list.component.html',
     styleUrls: ['./domains-list.component.scss']
 })
+
 export class DomainsListComponent implements OnInit {
 
     @ViewChild(CreateDomainWizardComponent) createDomainWizard: CreateDomainWizardComponent;
@@ -38,7 +40,10 @@ export class DomainsListComponent implements OnInit {
     loading: boolean;
     alert: { success: any, error: any };
 
-    constructor(private restful: RestfulService, private tasks: TasksService, private httpError: HttpErrorService) {
+    constructor(private restful: RestfulService,
+                private tasks: TasksService,
+                private httpError: HttpErrorService,
+                private socketService: SocketioService) {
         this.domains = [];
         this.selected = null;
         this.loading = false;
@@ -47,6 +52,23 @@ export class DomainsListComponent implements OnInit {
 
     ngOnInit() {
         this.getDomains();
+        this.socketService.listen('task-finished')
+            .subscribe((data: any) => {
+                if(data.task_type == 'add-domain'){
+                    if (data.status == 0){
+                        this.getDomains();
+                        this.alert.success = "Dominio creado correctamente";
+                    }else{
+                        this.alert.error = "Error al crear el dominio, comprobar logs";
+                    }
+                } else if (data.task_type == 'create-template') {
+                    if (data.status == 0){
+                        this.alert.success = "Plantilla creada correctamente";
+                    }else{
+                        this.alert.error = "Error al crear la plantilla, comprobar logs";
+                    }
+                }
+            });
     }
 
     onCloneToTemplate() {
@@ -148,7 +170,7 @@ export class DomainsListComponent implements OnInit {
     }
 
     onRemoteDesktop() {
-        this.remoteDesktopModal.open("6080");
+        this.remoteDesktopModal.open("6081");
     }
 
     onEditDomain() {

@@ -4,6 +4,7 @@ import { TaskTypes } from '../enums/task-types.enum';
 import {RestfulService} from './restful.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {SocketioService} from './socketio.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class TasksService {
   private _longTasks: LongTask[];
   private _tasksSubject: BehaviorSubject<Task[]>;
 
-  constructor(private restfulService: RestfulService, private router: Router) {
+  constructor(private restfulService: RestfulService, private router: Router, private socketioService: SocketioService) {
     this._tasks = [];
     this._longTasks = [];
     this._tasksSubject = new BehaviorSubject<Task[]>(this._tasks);
@@ -42,8 +43,14 @@ export class TasksService {
   addLongTask(task_id: string, taskType: TaskTypes, object: string = 'dvls') {
     let longTask = new LongTask(task_id);
     longTask.task = this.addTask(taskType, object);
-    longTask.subscription = interval(5000)
-        .subscribe(value => this.getLongTaskStatus(longTask));
+    longTask.subscription = this.socketioService.listen("task-finished")
+        .subscribe((data: any) => {
+          if(data.status != 0){
+            this.finishLongTask(longTask, true);
+          } else {
+            this.finishLongTask(longTask);
+          }
+        })
     this._longTasks.push(longTask);
     return longTask;
   }
@@ -53,24 +60,6 @@ export class TasksService {
     this._longTasks[longTaskPos].subscription.unsubscribe();
     let shortTask = this._longTasks[longTaskPos].task;
     this.finishTask(shortTask, withErrors);
-  }
-
-  private getLongTaskStatus(longTask: LongTask){
-    this.restfulService.getTaskStatus(longTask.task_id)
-        .subscribe(
-            (res: any) => {
-              if (res.status == 0){
-                this.finishLongTask(longTask);
-              } else {
-                if (res.status == -1){
-                  this.finishLongTask(longTask, true);
-                }
-              }
-            },
-            (error: HttpErrorResponse) => {
-              console.log(error)
-            }
-        )
   }
 
 }

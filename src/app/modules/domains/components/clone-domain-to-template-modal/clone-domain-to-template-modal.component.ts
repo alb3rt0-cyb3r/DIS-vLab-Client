@@ -49,7 +49,6 @@ export class CloneDomainToTemplateModalComponent implements OnInit {
         this.restful.createTemplate(this.form.value)
             .subscribe(
                 (res: any) => {
-                    console.log(res);
                     this.tasks.addLongTask(res, TaskTypes.TEMPLATE_CREATION);
                     this.opened = false;
                 },

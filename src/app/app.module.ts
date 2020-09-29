@@ -15,6 +15,7 @@ import { SettingsModule} from './modules/settings/settings.module';
 import { AuthService} from './shared/services/auth.service';
 import { RestfulService} from './shared/services/restful.service';
 import { TasksService} from './shared/services/tasks.service';
+import { SocketioService} from './shared/services/socketio.service';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { TasksService} from './shared/services/tasks.service';
   providers: [
     AuthService,
     RestfulService,
-    TasksService
+    TasksService,
+    SocketioService
   ],
   bootstrap: [AppComponent]
 })

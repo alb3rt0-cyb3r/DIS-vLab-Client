@@ -5,6 +5,7 @@ import {RestfulService} from '../../../../shared/services/restful.service';
 import {TasksService} from '../../../../shared/services/tasks.service';
 import {TaskTypes} from '../../../../shared/enums/task-types.enum';
 import {HttpErrorService} from '../../../../shared/services/http-error.service';
+import {SocketioService} from '../../../../shared/services/socketio.service';
 
 interface Template {
     uuid: string;
@@ -32,7 +33,8 @@ export class TemplatesListComponent implements OnInit {
 
     constructor(private restful: RestfulService,
                 private tasks: TasksService,
-                private httpError: HttpErrorService) {
+                private httpError: HttpErrorService,
+                private socketioService: SocketioService) {
         this.templates = undefined;
         this.loading = false;
         this.alert = {success: undefined, error: undefined};
@@ -40,6 +42,23 @@ export class TemplatesListComponent implements OnInit {
 
     ngOnInit() {
         this.getTemplates();
+        this.socketioService.listen('task-finished')
+            .subscribe((data: any) => {
+                if(data.task_type == 'clone-template'){
+                    if(data.status == 0){
+                        this.alert.success = "Plantilla desplegada correctamente";
+                    } else {
+                        this.alert.error = "Error desplegando plantilla";
+                    }
+                } else if (data.task_type == 'create-template'){
+                    if(data.status == 0){
+                        this.alert.success = "Plantilla creada correctamente";
+                        this.getTemplates();
+                    } else {
+                        this.alert.error = "Error creando plantilla";
+                    }
+                }
+            })
     }
 
     onRefresh() {
