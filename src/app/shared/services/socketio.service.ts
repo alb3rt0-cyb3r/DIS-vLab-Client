@@ -11,7 +11,7 @@ export class SocketioService {
   private socket;
 
   constructor() {
-    this.socket = io('http://localhost:5000');
+    this.socket = io(environment.socketIOUrl);
   }
 
   listen(eventName: string) {

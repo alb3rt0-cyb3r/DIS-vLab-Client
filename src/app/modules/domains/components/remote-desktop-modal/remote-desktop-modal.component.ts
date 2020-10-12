@@ -54,9 +54,9 @@ export class RemoteDesktopModalComponent implements OnInit {
   }
 
   onClose() {
-    if (this.rfb){
+    if (this.rfb) {
       this.rfb.disconnect();
     }
-    this.modal.close();
+    this.opened = false;
   }
 }
